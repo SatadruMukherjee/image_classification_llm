@@ -2,7 +2,7 @@ import json
 import boto3
 import base64
 import os
-from io import BytesIO
+import io
 from PIL import Image
 from pinecone import Pinecone
 
