@@ -16,6 +16,7 @@ bedrock_runtime=boto3.client('bedrock-runtime',region_name='us-east-1')
 s3=boto3.client('s3')
 
 def image_embedding(bytes_data):
+  print("Performing Image Embedding")
   input_image = base64.b64encode(bytes_data).decode('utf8')
   body = json.dumps(
     {
@@ -49,8 +50,14 @@ def lambda_handler(event, context):
         
         # Resize the image to 2048x2048
         resized_image = image.resize((2048, 2048))
+
+        # Convert resized image to bytes
+        buffer = io.BytesIO()
+        resized_image.save(buffer, format=image.format)
+        buffer.seek(0)
+        image_bytes = buffer.read()
         
-        embedded_image = image_embedding(resized_image)
+        embedded_image = image_embedding(image_bytes)
         
         # Classify the resized image using the mock function
         image_class = index.query(  namespace="ns1",
