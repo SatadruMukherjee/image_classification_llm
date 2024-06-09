@@ -13,7 +13,7 @@ index = pc.Index("gallerystore")
 destination_bucket = 'classifiedbucketusingllm'
 
 bedrock_runtime=boto3.client('bedrock-runtime',region_name='us-east-1')
-
+s3=boto3.client('s3')
 
 def image_embedding(bytes_data):
   input_image = base64.b64encode(bytes_data).decode('utf8')
