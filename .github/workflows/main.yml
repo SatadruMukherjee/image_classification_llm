@@ -26,7 +26,7 @@ jobs:
       - name: Push in ECR & Update Lambda Function
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          REPOSITORY: demoytcicdgithubaction
+          REPOSITORY: llmecr
           IMAGE_TAG: ${{ github.sha }}
         run: |
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
