@@ -1,0 +1,32 @@
+name: ecr_docker_deployment
+on: [push]
+jobs:
+  docker_cicd:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: AKIA4ASLMUJL4KHQTLF3
+          aws-secret-access-key: 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
+          aws-region: us-east-1
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build the Docker Image
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REPOSITORY: llmecr
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build --platform linux/amd64 -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+          
+      - name: Push in ECR & Update Lambda Function
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REPOSITORY: demoytcicdgithubaction
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
