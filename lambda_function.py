@@ -8,7 +8,7 @@ from pinecone import Pinecone
 
 MAX_IMAGE_HEIGHT: int = 2048
 MAX_IMAGE_WIDTH: int = 2048
-pc = Pinecone(api_key="d4c340a9-8327-49c6-892c-7024b3b44024")
+pc = Pinecone(api_key="0e10ef14-f238-49f8-86af-fcede036d219")
 index = pc.Index("gallerystore")
 destination_bucket = 'classifiedbucketusingllm'
 
